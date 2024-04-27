@@ -6,7 +6,10 @@ const todoSlice = createSlice({
     initialState: {
         isLoading: false,
         data: [],
-        isError: false
+        isError: false,
+        page:1,
+        perPage:10,
+        total:150
     },
     reducers: {
         setDeleteItem(state, action) {
@@ -38,8 +41,10 @@ const todoSlice = createSlice({
             state.isLoading = true;
         })
         builder.addCase(getData.fulfilled, (state, action) => {
+            console.log(action.payload)
             state.isLoading = false;
-            state.data = action.payload.data?.todos;
+            state.data = action.payload.res?.data?.todos;
+            state.page = action.payload?.data?.page
         })
         builder.addCase(getData.rejected, (state, action) => {
             state.isError = true;

@@ -8,7 +8,7 @@ import Header from './components/navigation';
 const App = () => {
   return (
     <>
-          <Header />
+      <Header />
       <Home />
     </>
 
