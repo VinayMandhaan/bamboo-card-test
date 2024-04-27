@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getData, updateData } from '../redux/actions/todo';
+import { getData } from '../redux/actions/todo';
 import Card from '../components/card';
-import Modal from '../components/modal';
-import { setDeleteItem, setUpdatedItem } from '../redux/reducers/todoSlice';
+import { Modal, DeleteModal, UpdateModal } from '../components/modal';
 
 const Home = () => {
     const dispatch = useDispatch()
@@ -20,11 +19,11 @@ const Home = () => {
     const renderItem = () => {
         switch (selectedType) {
             case 'Delete':
-                return renderDeleteModal()
+                return <DeleteModal setDisplayModal={setDisplayModal} selectedItem={selectedItem} />
             case 'Complete':
-                return renderUpdateModal()
+                return <UpdateModal setDisplayModal={setDisplayModal} selectedItem={selectedItem} />
             case 'Update':
-                return renderUpdateModal()
+                return <UpdateModal setDisplayModal={setDisplayModal} selectedItem={selectedItem} />
             default:
                 break
         }
@@ -32,54 +31,6 @@ const Home = () => {
 
     if (loading) {
         <span>Loading</span>
-    }
-
-    const renderDeleteModal = () => {
-        return (
-            <div className='flex flex-col items-center justify-center p-4'>
-                <span>Are you sure you want to delete this item?</span>
-                <div className='w-full flex items-center justify-center mt-4 gap-4'>
-                    <button onClick={() => {
-                        setDisplayModal(false)
-                    }} className='bg-gray-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Cancel</button>
-                    <button onClick={() => {
-                        dispatch(setDeleteItem(selectedItem))
-                        setDisplayModal(false)
-                    }} className='bg-red-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Yes</button>
-                </div>
-            </div>
-        )
-    }
-
-    const renderUpdateModal = () => {
-        return (
-            <div className='flex flex-col items-center justify-center p-4'>
-                <span>{selectedItem?.completed ? 'Mark as incomplete' : 'Mark as complete'}</span>
-                <div className='w-full flex items-center justify-center mt-4 gap-4'>
-                    <button onClick={() => {
-                        setDisplayModal(false)
-                    }} className='bg-gray-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Cancel</button>
-                    <button onClick={() => {
-                        if(selectedItem?.completed) {
-                            const payload = {
-                                id:selectedItem?.id,
-                                type:false
-                            }
-                            dispatch(setUpdatedItem(payload))
-                            setDisplayModal(false)
-                        } else {
-                            // dispatch(updateData(selectedItem?.id, true))
-                            const payload = {
-                                id:selectedItem?.id,
-                                type:true
-                            }
-                            dispatch(setUpdatedItem(payload))
-                            setDisplayModal(false)
-                        }
-                    }} className='bg-green-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Yes</button>
-                </div>
-            </div>
-        )
     }
 
     return (
