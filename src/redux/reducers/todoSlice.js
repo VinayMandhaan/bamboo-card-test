@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import { getData } from '../actions/todo';
 
 const todoSlice = createSlice({
@@ -9,6 +9,17 @@ const todoSlice = createSlice({
         isError: false
     },
     reducers: {
+        setDeleteItem(state, action) {
+            const index = current(state.data).indexOf(action.payload);
+            if (index !== -1) {
+                const newData = [...current(state.data).slice(0, index), ...current(state.data).slice(index + 1)];
+                return {
+                    ...state,
+                    data: newData
+                };
+            }
+            return state;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getData.pending, (state, action) => {
@@ -23,5 +34,7 @@ const todoSlice = createSlice({
         })
     }
 });
+
+export const { setDeleteItem } = todoSlice.actions
 
 export default todoSlice.reducer; 
