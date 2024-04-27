@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
+import { store } from '../store';
 
 export const getData = createAsyncThunk("getData", async () => {
     try {
@@ -8,4 +9,4 @@ export const getData = createAsyncThunk("getData", async () => {
     } catch (err) {
         console.log(err)
     }
-});
+})

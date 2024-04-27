@@ -19,6 +19,18 @@ const todoSlice = createSlice({
                 };
             }
             return state;
+        },
+        setUpdatedItem(state, action) {
+            const index = current(state.data).findIndex(item => item.id === action.payload.id);
+            if (index !== -1) {
+                let newData = [...current(state.data)]
+                newData[index] = { ...newData[index], completed: action.payload.type }
+                return {
+                    ...state,
+                    data: newData
+                };
+            }
+            return state;
         }
     },
     extraReducers: (builder) => {
@@ -35,6 +47,6 @@ const todoSlice = createSlice({
     }
 });
 
-export const { setDeleteItem } = todoSlice.actions
+export const { setDeleteItem, setUpdatedItem } = todoSlice.actions
 
 export default todoSlice.reducer; 

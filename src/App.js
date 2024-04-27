@@ -7,10 +7,11 @@ import Header from './components/navigation';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Header />
+    <>
+          <Header />
       <Home />
-    </Provider>
+    </>
+
   );
 }
 

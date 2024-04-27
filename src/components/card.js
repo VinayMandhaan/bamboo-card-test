@@ -6,17 +6,21 @@ const Card = ({ val, ind, setSelectedType }) => {
     return (
         <div key={ind} className='m-4 w-full lg:w-[20%] lg:m-0 shadow-md p-4 min-h-[120px] cursor-pointer rounded-lg hover:shadow-lg relative'>
             <div className="flex items-center mt-2">
-                {
-                    val?.completed && (
-                        <div onClick={() => {
-                            setSelectedType('Update', val)
-                        }} className=''>
+                <div
+                    onClick={() => {
+                        setSelectedType(val?.completed ? 'Update' : 'Complete', val)
+                    }}
+                    className='flex items-center justify-center w-6 h-6 border border-gray-200 rounded-full flex-shrink-0'
+                >
+                    {
+                        val?.completed ? (
                             <FaCheck size={16} className='text-green-700' />
-                        </div>
-                    )
-                }
-                <h3 className='ml-[8px]'>{val?.todo}</h3>
-
+                        ) : (
+                            <></>
+                        )
+                    }
+                </div>
+                <h3 className='ml-2'>{val?.todo}</h3>
             </div>
 
             <div onClick={() => {
