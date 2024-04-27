@@ -32,7 +32,11 @@ const Header = () => {
             </div>
             {
                 isOpen && (
-                    <div className='flex flex-col mt-4'>
+                    <div style={{
+                        maxHeight: isOpen ? '100vh' : '0',
+                        overflow: 'hidden',
+                        transition: 'max-height 0.8s ease-in-out'
+                    }}  className='flex flex-col mt-4'>
                         <a href='/' className='text-white hover:bg-gray-700 px-3 py-2 rounded-md'>Home</a>
                         <a href='/' className='text-white hover:bg-gray-700 px-3 py-2 rounded-md'>About</a>
                         <a href='/' className='text-white hover:bg-gray-700 px-3 py-2 rounded-md'>Services</a>

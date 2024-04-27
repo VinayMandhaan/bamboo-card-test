@@ -5,7 +5,7 @@ import { FaCheck, FaTrash } from "react-icons/fa";
 const Card = ({ val, ind, setSelectedType }) => {
     return (
         <div key={ind} className='m-4 w-full lg:w-[20%] lg:m-0 shadow-md p-4 min-h-[120px] cursor-pointer rounded-lg hover:shadow-lg relative'>
-            <div className="flex items-center mt-2">
+            <div className="flex items-center mt-4">
                 <div
                     onClick={() => {
                         setSelectedType(val?.completed ? 'Update' : 'Complete', val)

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getData } from '../redux/actions/todo';
 import Card from '../components/card';
-import { Modal, DeleteModal, UpdateModal } from '../components/modal';
+import { Modal, DeleteModal, UpdateModal, AddModal } from '../components/modal';
+import { FaPlus } from 'react-icons/fa';
+import { setAddItem } from '../redux/reducers/todoSlice';
 
 const Home = () => {
     const dispatch = useDispatch()
@@ -14,19 +16,22 @@ const Home = () => {
     const [selectedItem, setSelectedItem] = useState()
     const [selectedType, setSelectedType] = useState()
     const [displayModal, setDisplayModal] = useState(false)
+    const [todo, setTodo] = useState('')
     const totalPages = Math.ceil(total / perPage);
 
 
     useEffect(() => {
         const payload = {
-            page:1,
-            perPage:10
+            page: 1,
+            perPage: 10
         }
         dispatch(getData(payload));
     }, [])
 
     const renderItem = () => {
         switch (selectedType) {
+            case 'Add':
+                return <AddModal setDisplayModal={setDisplayModal} setTodo={setTodo} data={data} todo={todo} />
             case 'Delete':
                 return <DeleteModal setDisplayModal={setDisplayModal} selectedItem={selectedItem} />
             case 'Complete':
@@ -41,10 +46,11 @@ const Home = () => {
     const handleNext = () => {
         if (page < totalPages) {
             const payload = {
-                page:page + 1,
-                perPage:10
+                page: page + 1,
+                perPage: 10
             }
             dispatch(getData(payload));
+            window.scrollTo({ top: 0, behavior: 'smooth' })
         }
     };
 
@@ -52,6 +58,7 @@ const Home = () => {
         if (page > 1) {
             const prevPage = page - 1;
             dispatch(getData({ page: prevPage, perPage }));
+            window.scrollTo({ top: 0, behavior: 'smooth' })
         }
     };
 
@@ -61,6 +68,14 @@ const Home = () => {
 
     return (
         <>
+            <div className='flex w-full items-end justify-end mt-4'>
+                <div onClick={() => {
+                    setSelectedType('Add')
+                    setDisplayModal(true)
+                }} className='flex items-center justify-center w-6 h-6 border border-gray-200 rounded-full mr-10 cursor-pointer'>
+                    <FaPlus />
+                </div>
+            </div>
             <div className='flex flex-wrap justify-center gap-4 mt-10 mb-10'>
                 {
                     data && data?.map((val, ind) => (
@@ -73,13 +88,13 @@ const Home = () => {
                     ))
                 }
             </div>
-            <div className='flex items-end justify-end mr-10'>
+            <div className='flex items-center justify-center lg:items-end lg:justify-end mb-10 lg:mr-10'>
                 <button onClick={() => {
                     handlePrevious()
-                }} className='mr-4'>Previous</button>
+                }} className='mr-4 border border-gray-200 rounded-lg p-2 shadow-lg'>Previous</button>
                 <button onClick={() => {
                     handleNext()
-                }}>Next</button>
+                }} className='border border-gray-200 rounded-lg p-2 shadow-lg'>Next</button>
             </div>
             <Modal isOpen={displayModal}>
                 {renderItem()}

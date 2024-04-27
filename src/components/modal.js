@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux"
-import { setDeleteItem, setUpdatedItem } from "../redux/reducers/todoSlice"
+import { setAddItem, setDeleteItem, setUpdatedItem } from "../redux/reducers/todoSlice"
 
 
 export const Modal = ({ isOpen, onClose, children }) => {
@@ -65,6 +65,36 @@ export const UpdateModal = ({ setDisplayModal, selectedItem }) => {
                         setDisplayModal(false)
                     }
                 }} className='bg-green-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Yes</button>
+            </div>
+        </div>
+    )
+}
+
+
+export const AddModal = ({ setDisplayModal, setTodo, data, todo }) => {
+    const dispatch = useDispatch()
+    return (
+        <div className='flex flex-col items-center justify-center p-4'>
+            <span>Add Task</span>
+            <div className='w-full flex items-center justify-center mt-4'>
+                <input onChange={(e) => {
+                    setTodo(e.target.value)
+                }} className='border border-gray-200 shadow-lg rounded-lg h-[48px] w-[80%] pl-4 pr-4 focus:outline-none focus:ring-0' type='text' />
+            </div>
+            <div className='w-full flex items-center justify-center mt-4 gap-4'>
+                <button onClick={() => {
+                    setDisplayModal(false)
+                }} className='bg-gray-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Cancel</button>
+                <button onClick={() => {
+                    const payload = {
+                        user: 36,
+                        id: data[data?.length - 1]?.id + 1,
+                        todo: todo,
+                        completed: false
+                    }
+                    dispatch(setAddItem(payload))
+                    setDisplayModal(false)
+                }} className='bg-green-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Add</button>
             </div>
         </div>
     )

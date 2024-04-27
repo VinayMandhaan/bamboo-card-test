@@ -28,12 +28,21 @@ const todoSlice = createSlice({
             if (index !== -1) {
                 let newData = [...current(state.data)]
                 newData[index] = { ...newData[index], completed: action.payload.type }
+                console.log(newData)
                 return {
                     ...state,
                     data: newData
                 };
             }
             return state;
+        },
+        setAddItem(state,action) {
+            let newData = [...current(state.data)]
+            newData.push(action.payload)
+            return {
+                ...state,
+                data:newData
+            }
         }
     },
     extraReducers: (builder) => {
@@ -41,7 +50,6 @@ const todoSlice = createSlice({
             state.isLoading = true;
         })
         builder.addCase(getData.fulfilled, (state, action) => {
-            console.log(action.payload)
             state.isLoading = false;
             state.data = action.payload.res?.data?.todos;
             state.page = action.payload?.data?.page
@@ -52,6 +60,6 @@ const todoSlice = createSlice({
     }
 });
 
-export const { setDeleteItem, setUpdatedItem } = todoSlice.actions
+export const { setDeleteItem, setUpdatedItem, setAddItem } = todoSlice.actions
 
 export default todoSlice.reducer; 
