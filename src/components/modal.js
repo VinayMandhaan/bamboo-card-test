@@ -77,7 +77,7 @@ export const AddModal = ({ setDisplayModal, setTodo, data, todo }) => {
         <div className='flex flex-col items-center justify-center p-4'>
             <span>Add Task</span>
             <div className='w-full flex items-center justify-center mt-4'>
-                <input onChange={(e) => {
+                <input placeholder='Enter Task' onChange={(e) => {
                     setTodo(e.target.value)
                 }} className='border border-gray-200 shadow-lg rounded-lg h-[48px] w-[80%] pl-4 pr-4 focus:outline-none focus:ring-0' type='text' />
             </div>

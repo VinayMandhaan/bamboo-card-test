@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getData } from '../redux/actions/todo';
 import Card from '../components/card';
 import { Modal, DeleteModal, UpdateModal, AddModal } from '../components/modal';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaTruckLoading } from 'react-icons/fa';
 import { setAddItem } from '../redux/reducers/todoSlice';
+import Loader from '../components/loader';
 
 const Home = () => {
     const dispatch = useDispatch()
     const data = useSelector((state) => state.todo.data)
-    const loading = useSelector((state) => state.todo.loading)
+    const loading = useSelector((state) => state.todo.isLoading)
     const page = useSelector((state) => state.todo.page)
     const perPage = useSelector((state) => state.todo.perPage)
     const total = useSelector((state) => state.todo.total)
@@ -63,7 +64,11 @@ const Home = () => {
     };
 
     if (loading) {
-        <span>Loading</span>
+        return (
+            <div className='flex items-center justify-center mt-10'>
+                <Loader/>
+            </div>
+        )
     }
 
     return (
