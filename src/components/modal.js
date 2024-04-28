@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from "react-redux"
 import { setAddItem, setDeleteItem, setUpdatedItem } from "../redux/reducers/todoSlice"
+import Button from './button';
 
 
 export const Modal = ({ isOpen, onClose, children }) => {
@@ -26,13 +27,14 @@ export const DeleteModal = ({ setDisplayModal, selectedItem }) => {
         <div className='flex flex-col items-center justify-center p-4'>
             <span>Are you sure you want to delete this item?</span>
             <div className='w-full flex items-center justify-center mt-4 gap-4'>
-                <button onClick={() => {
+                <Button onClick={() => {
                     setDisplayModal(false)
-                }} className='bg-gray-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Cancel</button>
-                <button onClick={() => {
+                }} title={'Cancel'} backgroundColor={'bg-gray-700'} />
+                <Button onClick={() => {
                     dispatch(setDeleteItem(selectedItem))
                     setDisplayModal(false)
-                }} className='bg-red-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Yes</button>
+                }} title={'Yes'} backgroundColor={'bg-red-700'} />
+
             </div>
         </div>
     )
@@ -41,30 +43,36 @@ export const DeleteModal = ({ setDisplayModal, selectedItem }) => {
 
 export const UpdateModal = ({ setDisplayModal, selectedItem }) => {
     const dispatch = useDispatch()
+
+    const handleUpdate = () => {
+        if (selectedItem?.completed) {
+            const payload = {
+                id: selectedItem?.id,
+                type: false
+            }
+            dispatch(setUpdatedItem(payload))
+            setDisplayModal(false)
+        } else {
+            const payload = {
+                id: selectedItem?.id,
+                type: true
+            }
+            dispatch(setUpdatedItem(payload))
+            setDisplayModal(false)
+        }
+    }
+
+
     return (
         <div className='flex flex-col items-center justify-center p-4'>
             <span>{selectedItem?.completed ? 'Mark as incomplete' : 'Mark as complete'}</span>
             <div className='w-full flex items-center justify-center mt-4 gap-4'>
-                <button onClick={() => {
+                <Button onClick={() => {
                     setDisplayModal(false)
-                }} className='bg-gray-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Cancel</button>
-                <button onClick={() => {
-                    if (selectedItem?.completed) {
-                        const payload = {
-                            id: selectedItem?.id,
-                            type: false
-                        }
-                        dispatch(setUpdatedItem(payload))
-                        setDisplayModal(false)
-                    } else {
-                        const payload = {
-                            id: selectedItem?.id,
-                            type: true
-                        }
-                        dispatch(setUpdatedItem(payload))
-                        setDisplayModal(false)
-                    }
-                }} className='bg-green-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Yes</button>
+                }} title={'Cancel'} backgroundColor={'bg-gray-700'} />
+                <Button onClick={() => {
+                    handleUpdate()
+                }} title={'Yes'} backgroundColor={'bg-green-700'} />
             </div>
         </div>
     )
@@ -82,10 +90,10 @@ export const AddModal = ({ setDisplayModal, setTodo, data, todo }) => {
                 }} className='border border-gray-200 shadow-lg rounded-lg h-[48px] w-[80%] pl-4 pr-4 focus:outline-none focus:ring-0' type='text' />
             </div>
             <div className='w-full flex items-center justify-center mt-4 gap-4'>
-                <button onClick={() => {
+                <Button onClick={() => {
                     setDisplayModal(false)
-                }} className='bg-gray-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Cancel</button>
-                <button onClick={() => {
+                }} title={'Cancel'} backgroundColor={'bg-gray-700'} />
+                <Button onClick={() => {
                     const payload = {
                         user: 36,
                         id: data[data?.length - 1]?.id + 1,
@@ -94,7 +102,7 @@ export const AddModal = ({ setDisplayModal, setTodo, data, todo }) => {
                     }
                     dispatch(setAddItem(payload))
                     setDisplayModal(false)
-                }} className='bg-green-700 w-[20%] rounded-lg shadow-md text-white text-16 pt-[4px] pb-[4px]'>Add</button>
+                }} title={'Add'} backgroundColor={'bg-green-700'} />
             </div>
         </div>
     )

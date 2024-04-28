@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getData } from '../redux/actions/todo';
 import Card from '../components/card';
 import { Modal, DeleteModal, UpdateModal, AddModal } from '../components/modal';
-import { FaPlus, FaTruckLoading } from 'react-icons/fa';
-import { setAddItem } from '../redux/reducers/todoSlice';
+import { FaPlus } from 'react-icons/fa';
 import Loader from '../components/loader';
 
 const Home = () => {
@@ -65,9 +64,7 @@ const Home = () => {
 
     if (loading) {
         return (
-            <div className='flex items-center justify-center mt-10'>
-                <Loader/>
-            </div>
+            <Loader />
         )
     }
 
